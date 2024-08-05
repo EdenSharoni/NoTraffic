@@ -1,0 +1,39 @@
+<form>
+  <mat-form-field appearance="fill">
+    <mat-label>Zone name</mat-label>
+    <input matInput [formControl]="zoneNameControl" />
+    <mat-error *ngIf="zoneNameControl.hasError('required')">
+      Zone name is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+</form>
+
+<br />
+
+<ng-container *ngFor="let circle of points; let i = index; let isLast = last">
+  <mat-card>
+    <div class="flex-row align-center space-between">
+      <div class="flex-row gap-1 align-center">
+        <div class="circle" style="--bg-color: red">{{ i + 1 }}</div>
+        <div>[{{ circle[0] }}, {{ circle[1] }}]</div>
+      </div>
+      <button
+        mat-icon-button
+        *ngIf="isLast"
+        (click)="points.pop()"
+        matTooltip="Delete point"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </mat-card>
+  <br />
+</ng-container>
+
+<button
+  mat-raised-button
+  (click)="addZone()"
+  [disabled]="points.length < 4 || !zoneNameControl.valid"
+>
+  Save Zone
+</button>
