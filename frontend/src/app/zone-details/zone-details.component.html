@@ -1,15 +1,13 @@
-<mat-card *ngIf="zone">
-  <mat-card-title>
-    {{ zone.name }}
-  </mat-card-title>
+<mat-card *ngIf="selectedZone">
+  <mat-card-title> Zone name: {{ selectedZone.name }} </mat-card-title>
   <mat-card-subtitle>
-    <div *ngFor="let point of zone.points">
-      [{{ point[0] }}, {{ point[1] }}]
+    <div *ngFor="let point of selectedZone.points; let i = index">
+      Point {{ i + 1 }}: [{{ point[0] }}, {{ point[1] }}]
     </div>
   </mat-card-subtitle>
   <mat-card-actions align="end">
-    <button mat-icon-button (click)="deleteZone()" matTooltip="Delete Zone">
-      <mat-icon>delete</mat-icon>
+    <button mat-raised-button color="primary" (click)="deleteZone()">
+      Delete Zone
     </button>
   </mat-card-actions>
 </mat-card>

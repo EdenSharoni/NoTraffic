@@ -23,8 +23,8 @@ export class ZonesService {
     return this.http.post<Zone>(`${environment.apiService}/zone`, params);
   }
 
-  public deleteZone$(zone: Zone) {
+  public deleteZone$(zone_id: number) {
     console.log('DELETING ZONE...');
-    return this.http.delete(`${environment.apiService}/zone/${zone.id}`);
+    return this.http.delete(`${environment.apiService}/zone/${zone_id}`);
   }
 }

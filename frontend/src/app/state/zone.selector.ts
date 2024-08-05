@@ -3,15 +3,44 @@ import { ZoneState, zonesAdapter } from './zone.state';
 
 export const ZONES_SELECTOR_NAME = 'zones';
 
-const getZoneState = createFeatureSelector<ZoneState>(ZONES_SELECTOR_NAME);
-const zonesSelectors = zonesAdapter.getSelectors();
+const getZoneFeatuerSelector =
+  createFeatureSelector<ZoneState>(ZONES_SELECTOR_NAME);
 
-export const getZones = createSelector(getZoneState, zonesSelectors.selectAll);
+// get all zones selector
+export const getZones = createSelector(
+  getZoneFeatuerSelector,
+  zonesAdapter.getSelectors().selectAll
+);
 
-export const getStatus = createSelector(getZoneState, (state) => {
+// get state selector
+export const getStatus = createSelector(getZoneFeatuerSelector, (state) => {
   return state.status;
 });
 
-export const getErrorMessage = createSelector(getZoneState, (state) => {
-  return state.error;
+// get error message selector
+export const getErrorMessage = createSelector(
+  getZoneFeatuerSelector,
+  (state) => {
+    return state.error;
+  }
+);
+
+// // get points
+export const getPoints = createSelector(getZoneFeatuerSelector, (state) => {
+  return state.points;
 });
+
+export const getSelectedZoneID = createSelector(
+  getZoneFeatuerSelector,
+  (state) => {
+    state.selectedZoneID;
+  }
+);
+
+export const getSelectedZone = createSelector(
+  getZoneFeatuerSelector,
+  getSelectedZoneID,
+  (state) => {
+    return state.selectedZoneID ? state.entities[state.selectedZoneID] : null;
+  }
+);

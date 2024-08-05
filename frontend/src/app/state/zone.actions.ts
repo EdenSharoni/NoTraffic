@@ -1,50 +1,99 @@
-import { createAction, props } from '@ngrx/store';
-import { Zone } from '../models/zone.interface';
+import { Action } from '@ngrx/store';
+import { Point, Zone } from '../models/zone.interface';
 
-const LOAD_ZONES_ACTION = '[zones page] load zones';
-const LOAD_ZONES_SUCCESS_ACTION = '[zones page] load zone success';
-const LOAD_ZONES_FAILURE_ACTION = '[zones page] load zone failure';
+export enum ZoneActionTypes {
+  LOAD_ZONES = '[zones page] load zones',
+  LOAD_ZONES_SUCCESS = '[zones page] load zone success',
+  LOAD_ZONES_FAILURE = '[zones page] load zone failure',
 
-const ADD_ZONE_ACTION = '[zones page] add zone';
-const ADD_ZONE_SUCCESS_ACTION = '[zones page] add zone success';
-const ADD_ZONE_FAILURE_ACTION = '[zones page] add zone failure';
+  ADD_ZONE = '[zones page] add zone',
+  ADD_ZONE_SUCCESS = '[zones page] add zone success',
+  ADD_ZONE_FAILURE = '[zones page] add zone failure',
 
-const DELETE_ZONE_ACTION = '[zones page] delete zone';
-const DELETE_ZONE_SUCCESS_ACTION = '[zones page] delete zone success';
-const DELETE_ZONE_FAILURE_ACTION = '[zones page] delete zone failure';
+  DELETE_ZONE = '[zones page] delete zone',
+  DELETE_ZONE_SUCCESS = '[zones page] delete zone success',
+  DELETE_ZONE_FAILURE = '[zones page] delete zone failure',
 
-// LOADING ZONES
-export const loadZones = createAction(LOAD_ZONES_ACTION);
-export const loadZonesSuccess = createAction(
-  LOAD_ZONES_SUCCESS_ACTION,
-  props<{ zones: Zone[] }>()
-);
-export const loadZonesFailure = createAction(
-  LOAD_ZONES_FAILURE_ACTION,
-  props<{ error: string }>()
-);
+  SELECT_ZONE_ID = '[zone page] select zone id',
 
-// ADDING ZONE
-export const addZone = createAction(ADD_ZONE_ACTION, props<{ zone: Zone }>());
-export const addZoneSuccess = createAction(
-  ADD_ZONE_SUCCESS_ACTION,
-  props<{ zone: Zone }>()
-);
-export const addZoneFailure = createAction(
-  ADD_ZONE_FAILURE_ACTION,
-  props<{ error: string }>()
-);
+  ADD_POINT_TO_ZONE = '[zone page] add point to zone',
+  REMOVE_LAST_POINT_FROM_ZONE = '[zone page] remove last point from zone',
+  REMOVE_ALL_POINT_FROM_ZONE = '[zone page] remove all point from zone',
+}
 
-// DELETING ZONE
-export const deleteZone = createAction(
-  DELETE_ZONE_ACTION,
-  props<{ zone: Zone }>()
-);
-export const deleteZoneSuccess = createAction(
-  DELETE_ZONE_SUCCESS_ACTION,
-  props<{ zone: Zone }>()
-);
-export const deleteZoneFailure = createAction(
-  DELETE_ZONE_FAILURE_ACTION,
-  props<{ error: string }>()
-);
+export class LoadZones implements Action {
+  readonly type = ZoneActionTypes.LOAD_ZONES;
+}
+
+export class LoadZonesSuccess implements Action {
+  readonly type = ZoneActionTypes.LOAD_ZONES_SUCCESS;
+  constructor(public payload: Zone[]) {}
+}
+
+export class LoadZonesFailure implements Action {
+  readonly type = ZoneActionTypes.LOAD_ZONES_FAILURE;
+  constructor(public payload: string) {}
+}
+
+export class AddZone implements Action {
+  readonly type = ZoneActionTypes.ADD_ZONE;
+  constructor(public zone: Zone) {}
+}
+
+export class AddZoneSuccess implements Action {
+  readonly type = ZoneActionTypes.ADD_ZONE_SUCCESS;
+  constructor(public payload: Zone) {}
+}
+
+export class AddZoneFailure implements Action {
+  readonly type = ZoneActionTypes.ADD_ZONE_FAILURE;
+  constructor(public payload: string) {}
+}
+
+export class DeleteZone implements Action {
+  readonly type = ZoneActionTypes.DELETE_ZONE;
+  constructor(public payload: number) {}
+}
+
+export class DeleteZoneSuccess implements Action {
+  readonly type = ZoneActionTypes.DELETE_ZONE_SUCCESS;
+  constructor(public payload: number) {}
+}
+
+export class DeleteZoneFailure implements Action {
+  readonly type = ZoneActionTypes.DELETE_ZONE_FAILURE;
+  constructor(public payload: string) {}
+}
+
+export class SelectZoneID implements Action {
+  readonly type = ZoneActionTypes.SELECT_ZONE_ID;
+  constructor(public payload: number | null) {}
+}
+
+export class AddPointToZone implements Action {
+  readonly type = ZoneActionTypes.ADD_POINT_TO_ZONE;
+  constructor(public payload: Point) {}
+}
+
+export class RemoveLastPointFromZone implements Action {
+  readonly type = ZoneActionTypes.REMOVE_LAST_POINT_FROM_ZONE;
+}
+
+export class RemoveAllPointsFromArray implements Action {
+  readonly type = ZoneActionTypes.REMOVE_ALL_POINT_FROM_ZONE;
+}
+
+export type Actions =
+  | LoadZones
+  | LoadZonesSuccess
+  | LoadZonesFailure
+  | AddZone
+  | AddZoneSuccess
+  | AddZoneFailure
+  | DeleteZone
+  | DeleteZoneSuccess
+  | DeleteZoneFailure
+  | SelectZoneID
+  | AddPointToZone
+  | RemoveLastPointFromZone
+  | RemoveAllPointsFromArray;

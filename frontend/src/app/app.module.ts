@@ -23,6 +23,7 @@ import { ZoneDetailsComponent } from './zone-details/zone-details.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
+import { ZonesOverviewComponent } from './zones-overview/zones-overview.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loa
     NewZoneComponent,
     ZoneDetailsComponent,
     LoadingSpinnerComponent,
+    ZonesOverviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,8 @@ import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loa
     ReactiveFormsModule,
 
     // NGRX
-    StoreModule.forRoot({ [ZONES_SELECTOR_NAME]: zoneReducer }),
+    StoreModule.forRoot({}),
+    StoreModule.forFeature(ZONES_SELECTOR_NAME, zoneReducer),
     EffectsModule.forRoot([ZoneEffects]),
 
     // ANGULAR MATERIAL

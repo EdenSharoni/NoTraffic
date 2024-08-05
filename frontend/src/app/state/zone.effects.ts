@@ -1,54 +1,46 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import {
-  addZone,
-  addZoneFailure,
-  addZoneSuccess,
-  deleteZone,
-  deleteZoneFailure,
-  deleteZoneSuccess,
-  loadZones,
-  loadZonesFailure,
-  loadZonesSuccess,
-} from './zone.actions';
-import { catchError, map, of, switchMap } from 'rxjs';
+import * as ZoneActions from './zone.actions';
+import { catchError, map, mergeMap, Observable, of } from 'rxjs';
 import { ZonesService } from '../services/zones/zones.service';
+import { Zone } from '../models/zone.interface';
+import { Action } from '@ngrx/store';
 
 @Injectable()
 export class ZoneEffects {
   constructor(private actions$: Actions, private zoneService: ZonesService) {}
 
-  private loadZones$ = createEffect(() =>
+  public loadZones$: Observable<Action> = createEffect(() =>
     this.actions$.pipe(
-      ofType(loadZones),
-      switchMap((action) =>
+      ofType<ZoneActions.LoadZones>(ZoneActions.ZoneActionTypes.LOAD_ZONES),
+      mergeMap((action: ZoneActions.LoadZones) =>
         this.zoneService.getZones$().pipe(
-          map((zones) => loadZonesSuccess({ zones: zones })),
-          catchError((error) => of(loadZonesFailure({ error: error.message })))
+          map((zones: Zone[]) => new ZoneActions.LoadZonesSuccess(zones)),
+          catchError((e) => of(new ZoneActions.LoadZonesFailure(e.message)))
         )
       )
     )
   );
 
-  private addZone$ = createEffect(() =>
+  public addZone$: Observable<Action> = createEffect(() =>
     this.actions$.pipe(
-      ofType(addZone),
-      switchMap((action) =>
+      ofType<ZoneActions.AddZone>(ZoneActions.ZoneActionTypes.ADD_ZONE),
+      mergeMap((action: ZoneActions.AddZone) =>
         this.zoneService.addZone$(action.zone).pipe(
-          map((newZone) => addZoneSuccess({ zone: newZone })),
-          catchError((error) => of(addZoneFailure({ error: error.message })))
+          map((newZone) => new ZoneActions.AddZoneSuccess(newZone)),
+          catchError((e) => of(new ZoneActions.AddZoneFailure(e.message)))
         )
       )
     )
   );
 
-  private deleteZone$ = createEffect(() =>
+  public deleteZone$: Observable<Action> = createEffect(() =>
     this.actions$.pipe(
-      ofType(deleteZone),
-      switchMap((action) =>
-        this.zoneService.deleteZone$(action.zone).pipe(
-          map((_) => deleteZoneSuccess({ zone: action.zone })),
-          catchError((error) => of(deleteZoneFailure({ error: error.message })))
+      ofType<ZoneActions.DeleteZone>(ZoneActions.ZoneActionTypes.DELETE_ZONE),
+      mergeMap((action: ZoneActions.DeleteZone) =>
+        this.zoneService.deleteZone$(action.payload).pipe(
+          map((_) => new ZoneActions.DeleteZoneSuccess(action.payload)),
+          catchError((e) => of(new ZoneActions.DeleteZoneFailure(e.message)))
         )
       )
     )

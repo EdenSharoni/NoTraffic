@@ -1,5 +1,5 @@
-import { EntityState, createEntityAdapter } from '@ngrx/entity';
-import { Zone } from '../models/zone.interface';
+import { EntityAdapter, EntityState, createEntityAdapter } from '@ngrx/entity';
+import { Point, Zone } from '../models/zone.interface';
 
 export enum Status {
   'pending' = 1,
@@ -9,13 +9,26 @@ export enum Status {
 }
 
 export interface ZoneState extends EntityState<Zone> {
+  selectedZoneID: number | null;
+  // newZone: {
+  //   zoneName: string;
+  //   zonePoints: Point[];
+  // } | null;
+  points: Point[];
   status: Status;
   error: string | null;
 }
 
-export const zonesAdapter = createEntityAdapter<Zone>();
+export const zonesAdapter: EntityAdapter<Zone> = createEntityAdapter<Zone>();
 
-export const initialState = zonesAdapter.getInitialState({
+export const defaultZone: ZoneState = {
+  ids: [],
+  entities: {},
+  selectedZoneID: null,
+  points: [],
+  // newZone: null,
   status: Status.pending,
   error: null,
-});
+};
+
+export const initialState = zonesAdapter.getInitialState(defaultZone);
