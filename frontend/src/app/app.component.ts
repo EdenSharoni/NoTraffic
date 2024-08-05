@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Point, Zone } from './models/zone.interface';
 import { Store } from '@ngrx/store';
-import { getSelectedZone, getStatus, getZones } from './state/zone.selector';
+import { getSelectedZone, getStatus } from './state/zone.selector';
 import * as ZoneActions from './state/zone.actions';
 import { Status } from './state/zone.state';
 
